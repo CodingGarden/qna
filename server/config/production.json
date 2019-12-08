@@ -1,0 +1,8 @@
+{
+  "host": "qna-api.coding.garden",
+  "authentication": {
+    "oauth": {
+      "redirect": "https://qna.coding.garden/"
+    }
+  }
+}

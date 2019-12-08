@@ -1,0 +1,51 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "public": "public",
+  "authentication": {
+    "entity": "user",
+    "service": "users",
+    "secret": "JWT_SECRET",
+    "authStrategies": [
+      "jwt"
+    ],
+    "jwtOptions": {
+      "header": {
+        "type": "access"
+      },
+      "audience": "https://qna.coding.garden",
+      "issuer": "coding.garden",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "oauth": {
+      "redirect": "http://localhost:8080/",
+      "google": {
+        "key": "GOOGLE_CLIENT_ID",
+        "secret": "GOOGLE_CLIENT_SECRET",
+        "scope": [
+          "profile",
+          "openid",
+          "email"
+        ]
+      },
+      "twitch": {
+        "key": "TWITCH_CLIENT_ID",
+        "secret": "TWITCH_CLIENT_SECRET",
+        "scope": [
+          "user_read"
+        ]
+      },
+      "discord": {
+        "key": "DISCORD_CLIENT_ID",
+        "secret": "DISCORD_CLIENT_SECRET",
+        "scope": [
+          "identify",
+          "email"
+        ]
+      }
+    }
+  },
+  "mongodb": "MONGO_URI",
+  "adminId": "ADMIN_ID"
+}
