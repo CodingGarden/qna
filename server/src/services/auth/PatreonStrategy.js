@@ -18,7 +18,8 @@ class PatreonStrategy extends MultiOAuthStrategy {
           authorization: `Bearer ${params.access_token}`,
         },
       });
-      const { data, included } = await response.json();
+      const { data, included = [] } = await response.json();
+      console.log('patreon login:', JSON.stringify(data, null, 2));
       const pledge = included.find(item =>
           item.type === 'member'
           && item.relationships.campaign.data.id === PATREON_CAMPAIGN_ID);
