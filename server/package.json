@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "deploy": "now -e NODE_ENV=production -e JWT_SECRET=@qna-jwt-secret -e GOOGLE_CLIENT_ID=@qna-google-client-id -e GOOGLE_CLIENT_SECRET=@qna-google-client-secret -e TWITCH_CLIENT_ID=@qna-twitch-client-id -e TWITCH_CLIENT_SECRET=@qna-twitch-client-secret -e ADMIN_ID=@qna-admin-id -e MONGO_URI=@qna-mongo-uri -e DISCORD_CLIENT_ID=@qna-discord-client-id -e DISCORD_CLIENT_SECRET=@qna-discord-client-secret"
+    "deploy": "now -e NODE_ENV=production -e JWT_SECRET=@qna-jwt-secret -e GOOGLE_CLIENT_ID=@qna-google-client-id -e GOOGLE_CLIENT_SECRET=@qna-google-client-secret -e TWITCH_CLIENT_ID=@qna-twitch-client-id -e TWITCH_CLIENT_SECRET=@qna-twitch-client-secret -e ADMIN_ID=@qna-admin-id -e MONGO_URI=@qna-mongo-uri -e DISCORD_CLIENT_ID=@qna-discord-client-id -e DISCORD_CLIENT_SECRET=@qna-discord-client-secret -e PATREON_CLIENT_ID=@qna-patreon-client-id -e PATREON_CLIENT_SECRET=@qna-patreon-client-secret -e PATREON_CAMPAIGN_ID=@qna-patreon-campaign-id -e ADMIN_PROVIDER=@qna-admin-provider"
   },
   "keywords": [],
   "author": "CJ R. <cj@null.computer> (https://w3cj.now.sh)",

@@ -22,7 +22,10 @@ module.exports = createService('questions', {
   },
 }, {
   before: {
-    create: [hooks.setUserId],
+    create: [(context) => {
+      if (!context.data.text.trim()) throw new Error('Question text is required.');
+      return context;
+    }, hooks.setUserId],
     update: [hooks.notAllowed],
     patch: [hooks.notAllowed],
     delete: [hooks.notAllowed],

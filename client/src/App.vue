@@ -22,6 +22,7 @@
             <b-button type="is-danger" @click="loginWith('google')" icon-left="youtube">Login with Google</b-button>
             <b-button type="is-info" @click="loginWith('twitch')" icon-left="twitch">Login with Twitch</b-button>
             <b-button type="is-warning" @click="loginWith('discord')" icon-left="discord">Login with Discord</b-button>
+            <b-button type="is-danger" @click="loginWith('patreon')" icon-left="patreon">Login with Patreon</b-button>
           </div>
           <div v-if="loading" class="buttons">
             <b-button v-if="loading" type="is-danger" disabled loading>Loading...</b-button>
@@ -111,9 +112,10 @@ body {
 
 .buttons {
   display: flex;
-  justify-items: center;
-  align-content: center;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  width: 100%;
 }
 
 .buttons button {

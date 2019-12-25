@@ -43,9 +43,19 @@
           "identify",
           "email"
         ]
+      },
+      "patreon": {
+        "key": "PATREON_CLIENT_ID",
+        "secret": "PATREON_CLIENT_SECRET",
+        "scope": [
+          "identity",
+          "identity[email]",
+          "identity.memberships"
+        ]
       }
     }
   },
   "mongodb": "MONGO_URI",
+  "adminProvider": "ADMIN_PROVIDER",
   "adminId": "ADMIN_ID"
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="mt2 container event">
     <b-notification type="is-info" v-if="!user" :closable="false">
-      Hello there Wall Flower! 🌻 You are not logged in. You can submit a question, but you will not be able to vote.
+      Hello there Anonymous Rose! 🌹 You are not logged in. You can submit a question, but you will not be able to vote.
     </b-notification>
     <transition name="fade">
       <b-notification
@@ -109,6 +109,8 @@ export default {
       return this.questions
         .filter(q => !q.archived && !q.highlighted)
         .sort((a, b) => {
+          if (this.getPledgeAmount(a.user) > this.getPledgeAmount(b.user)) return -1;
+          if (this.getPledgeAmount(b.user) > this.getPledgeAmount(a.user)) return 1;
           const voteDiff = b.numVotes - a.numVotes;
           if (voteDiff !== 0) return voteDiff;
           return new Date(a.createdAt) - new Date(b.createdAt);
@@ -125,8 +127,8 @@ export default {
       {
         anonymous: {
           _id: 'anonymous',
-          picture: 'https://i.imgur.com/cNRFPPV.jpg',
-          name: 'Wall Flower',
+          picture: 'https://i.imgur.com/Uj3a1at.jpg',
+          name: 'Anonymous Rose',
           activeProvider: 'incognito',
         },
       },
@@ -197,10 +199,17 @@ export default {
     });
   },
   methods: {
+    getPledgeAmount(user) {
+      if (user.pledge && user.pledge.patron_status === 'active_patron') {
+        return user.pledge.currently_entitled_amount_cents;
+      }
+      return 0;
+    },
     async askQuestion() {
+      if (!this.question.trim()) return;
       this.loading = true;
       const question = await client.service('questions').create({
-        text: `${this.name ? `🌻 ${this.name} 🌻 asks: ` : ''}${this.question}`,
+        text: `${this.name ? `🌹 ${this.name} 🌹 asks: ` : ''}${this.question}`,
       });
       if (this.user) {
         await client.service('votes').create({

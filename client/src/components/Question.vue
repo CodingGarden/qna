@@ -10,6 +10,7 @@
         <div>
           <b-icon class="provider-icon" :icon="question.user.activeProvider"></b-icon>
           <strong class="question-user">{{question.user.name}}</strong>
+          <span v-if="question.user.pledge && question.user.pledge.patron_status === 'active_patron'" class="patron-icon">{{getPledgeBadge(question.user)}}</span>
           <br />
           <small class="date">{{new Date(question.createdAt).toLocaleString()}}</small>
           <br />
@@ -104,11 +105,40 @@
 <script>
 export default {
   props: ['user', 'question', 'vote', 'archive', 'highlight'],
+  methods: {
+    isPatron(user) {
+      return user.pledge && user.pledge.patron_status === 'active_patron';
+    },
+    getPledgeBadge(user) {
+      const amount = user.pledge.currently_entitled_amount_cents;
+      if (amount < 255) {
+        return '💧';
+      }
+
+      if (amount <= 255) {
+        return '🌻';
+      }
+
+      if (amount <= 500) {
+        return '💩';
+      }
+
+      if (amount <= 2500) {
+        return '🥑';
+      }
+
+      return '🚜';
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
 @import "~bulmaswatch/nuclear/_variables";
+
+.patron-icon {
+  margin-left: 0.5rem;
+}
 
 .provider-icon {
   margin-right: 0.5rem;

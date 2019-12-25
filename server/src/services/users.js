@@ -3,6 +3,12 @@ const hooks = require('../lib/hooks');
 
 const protectEmail = hooks.protect('email');
 
+const provider = {
+  id: String,
+  picture: String,
+  name: String,
+};
+
 module.exports = createService('users', {
   name: {
     type: String,
@@ -20,22 +26,17 @@ module.exports = createService('users', {
     type: String,
     required: true,
   },
+  pledge: {
+    currently_entitled_amount_cents: Number,
+    lifetime_support_cents: Number,
+    patron_status: String,
+    pledge_relationship_start: Date,
+  },
   providers: {
-    youtube: {
-      id: String,
-      picture: String,
-      name: String,
-    },
-    twitch: {
-      id: String,
-      picture: String,
-      name: String,
-    },
-    discord: {
-      id: String,
-      picture: String,
-      name: String,
-    },
+    youtube: provider,
+    twitch: provider,
+    discord: provider,
+    patreon: provider,
   },
 }, {
   before: {

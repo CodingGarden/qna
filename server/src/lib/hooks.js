@@ -3,10 +3,11 @@ const { hooks: { authenticate } } = require('@feathersjs/authentication');
 const notAllowed = (context) => {
   if (!context.params.provider) return context;
   const adminId = context.app.get('adminId');
+  const adminProvider = context.app.get('adminProvider');
   if (context.params.user
       && context.params.user.providers
-      && context.params.user.providers.youtube
-      && context.params.user.providers.youtube.id === adminId) return context;
+      && context.params.user.providers[adminProvider]
+      && context.params.user.providers[adminProvider].id === adminId) return context;
   throw new Error('Un-Authorized.');
 };
 
