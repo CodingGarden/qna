@@ -14,7 +14,12 @@ class MultiOAuthStrategy extends OAuthStrategy {
 
   async updateEntityProvider(profile, entity) {
     const data = await this.getEntityData(profile);
-    entity.name = data.name;
+    const [ firstName, ...names ] = data.name.split(' ');
+    let fullName = firstName;
+    if (names.length) {
+      fullName += ` ${names[0][0].toUpperCase()}.`;
+    }
+    entity.name = fullName;
     entity.picture = data.picture;
     entity.email = data.email;
     entity.activeProvider = this.provider;
@@ -31,7 +36,7 @@ class MultiOAuthStrategy extends OAuthStrategy {
     entity.providers = entity.providers || {};
     entity.providers[this.provider] = {
       id: data.id,
-      name: data.name,
+      name: fullName,
       picture: data.picture,
       channels: data.channels
     };
