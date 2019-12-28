@@ -32,7 +32,8 @@ class GoogleStrategy extends MultiOAuthStrategy {
       const memberResponse = await fetch('https://api.coding.garden/youtube/members');
       const memberJSON = await memberResponse.json();
       const tier = memberJSON.users.find(user => channels[user.id]);
-      profile.tier = tier;
+      console.log('youtube member login', tier);
+      profile.tier = tier ? tier.level : null;
       return profile;
     } catch (error) {
       console.error(error);
