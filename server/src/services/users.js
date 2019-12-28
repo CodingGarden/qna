@@ -7,6 +7,7 @@ const provider = {
   id: String,
   picture: String,
   name: String,
+  channels: Object,
 };
 
 module.exports = createService('users', {
@@ -27,10 +28,13 @@ module.exports = createService('users', {
     required: true,
   },
   pledge: {
-    currently_entitled_amount_cents: Number,
-    lifetime_support_cents: Number,
+    amount_cents: Number,
     patron_status: String,
-    pledge_relationship_start: Date,
+    created_at: Date,
+  },
+  tier: {
+    amount_cents: Number,
+    created_at: Date,
   },
   providers: {
     youtube: provider,

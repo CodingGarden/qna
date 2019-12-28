@@ -78,6 +78,7 @@ import { mapState } from 'vuex';
 
 import Question from '../components/Question.vue';
 import client from '../client';
+import apiClient from '../apiClient';
 
 export default {
   components: {
@@ -109,8 +110,8 @@ export default {
       return this.questions
         .filter(q => !q.archived && !q.highlighted)
         .sort((a, b) => {
-          if (this.getPledgeAmount(a.user) > this.getPledgeAmount(b.user)) return -1;
-          if (this.getPledgeAmount(b.user) > this.getPledgeAmount(a.user)) return 1;
+          if (this.getLevelAmount(a.user) > this.getLevelAmount(b.user)) return -1;
+          if (this.getLevelAmount(b.user) > this.getLevelAmount(a.user)) return 1;
           const voteDiff = b.numVotes - a.numVotes;
           if (voteDiff !== 0) return voteDiff;
           return new Date(a.createdAt) - new Date(b.createdAt);
@@ -118,7 +119,7 @@ export default {
     },
   },
   async mounted() {
-    this.loading = true;    
+    this.loading = true;
     this.usersById = (await client.service('users').find()).reduce(
       (byId, user) => {
         byId[user._id] = user;
@@ -197,11 +198,31 @@ export default {
         this.votesById[vote.questionId] || {},
       ).length;
     });
+    apiClient.service('youtube/members').on('created', (users) => {
+      if (Array.isArray(users)) {
+        const levelsById = users.reduce((byId, user) => {
+          byId[user.id] = user.level;
+          return byId;
+        }, {});
+        Object.values(this.usersById).forEach((user) => {
+          if (user.providers && user.providers.youtube && user.providers.youtube.channels) {
+            Object.keys(user.providers.youtube.channels).forEach((channelId) => {
+              if (levelsById[channelId]) {
+                this.$set(user, 'tier', levelsById[channelId]);
+              }
+            });
+          }
+        });
+      }
+    });
   },
   methods: {
-    getPledgeAmount(user) {
+    getLevelAmount(user) {
       if (user.pledge && user.pledge.patron_status === 'active_patron') {
-        return user.pledge.currently_entitled_amount_cents;
+        return user.pledge.amount_cents;
+      }
+      if (user.tier) {
+        return user.tier.amount_cents;
       }
       return 0;
     },

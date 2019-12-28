@@ -10,7 +10,14 @@
         <div>
           <b-icon class="provider-icon" :icon="question.user.activeProvider"></b-icon>
           <strong class="question-user">{{question.user.name}}</strong>
-          <span v-if="question.user.pledge && question.user.pledge.patron_status === 'active_patron'" class="patron-icon">{{getPledgeBadge(question.user)}}</span>
+          <span v-if="question.user.pledge && question.user.pledge.patron_status === 'active_patron'" class="level-icon">
+            {{getPledgeBadge(question.user)}}
+            <b-icon class="provider-icon" icon="patreon"></b-icon>
+          </span>
+          <span v-if="question.user.tier" class="level-icon">
+            {{getMemberBadge(question.user)}}
+            <b-icon class="provider-icon" icon="youtube"></b-icon>
+          </span>
           <br />
           <small class="date">{{new Date(question.createdAt).toLocaleString()}}</small>
           <br />
@@ -109,8 +116,11 @@ export default {
     isPatron(user) {
       return user.pledge && user.pledge.patron_status === 'active_patron';
     },
+    isMember(user) {
+      return user.tier;
+    },
     getPledgeBadge(user) {
-      const amount = user.pledge.currently_entitled_amount_cents;
+      const amount = user.pledge.amount_cents;
       if (amount < 255) {
         return '💧';
       }
@@ -129,6 +139,26 @@ export default {
 
       return '🚜';
     },
+    getMemberBadge(user) {
+      const amount = user.tier.amount_cents;
+      if (amount <= 199) {
+        return '💧';
+      }
+
+      if (amount <= 399) {
+        return '🌻';
+      }
+
+      if (amount <= 599) {
+        return '💩';
+      }
+
+      if (amount <= 2999) {
+        return '🥑';
+      }
+
+      return '🚜';
+    },
   },
 };
 </script>
@@ -136,7 +166,7 @@ export default {
 <style scoped lang="scss">
 @import "~bulmaswatch/nuclear/_variables";
 
-.patron-icon {
+.level-icon {
   margin-left: 0.5rem;
 }
 

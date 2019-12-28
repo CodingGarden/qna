@@ -23,11 +23,17 @@ class MultiOAuthStrategy extends OAuthStrategy {
     } else {
       entity.pledge = entity.pledge || null;
     }
+    if ('tier' in profile) {
+      entity.tier = profile.tier;
+    } else {
+      entity.tier = entity.tier || null;
+    }
     entity.providers = entity.providers || {};
     entity.providers[this.provider] = {
       id: data.id,
       name: data.name,
       picture: data.picture,
+      channels: data.channels
     };
   }
 

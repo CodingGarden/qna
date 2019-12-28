@@ -26,7 +26,8 @@
         "scope": [
           "profile",
           "openid",
-          "email"
+          "email",
+          "https://www.googleapis.com/auth/youtube.readonly"
         ]
       },
       "twitch": {

@@ -19,7 +19,6 @@ class PatreonStrategy extends MultiOAuthStrategy {
         },
       });
       const { data, included = [] } = await response.json();
-      console.log('patreon login:', JSON.stringify(data, null, 2));
       const pledge = included.find(item =>
           item.type === 'member'
           && item.relationships.campaign.data.id === PATREON_CAMPAIGN_ID);
@@ -28,7 +27,11 @@ class PatreonStrategy extends MultiOAuthStrategy {
         email: data.attributes.email,
         picture: data.attributes.image_url,
         name: data.attributes.first_name,
-        pledge: pledge ? pledge.attributes : null
+        pledge: pledge ? {
+          amount_cents: pledge.attributes.currently_entitled_amount_cents,
+          created_at: pledge.attributes.pledge_relationship_start,
+          patron_status: pledge.attributes.patron_status
+        } : null
       };
     } catch (error) {
       console.log(error);
