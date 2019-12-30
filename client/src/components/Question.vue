@@ -120,6 +120,7 @@ export default {
       return user.tier;
     },
     getPledgeBadge(user) {
+      if (!('amount_cents' in user.pledge)) return '⁉️';
       const amount = user.pledge.amount_cents;
       if (amount < 255) {
         return '💧';
